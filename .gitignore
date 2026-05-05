@@ -7,8 +7,6 @@ Muziek/
 
 # Tijdelijke blokkade voor grote types
 *.pdf
-*.xlsx
-*.docx
 *.pptx
 *.png
 *.jpg
