@@ -6,7 +6,6 @@ Muziek/
 *.mp3
 
 # Tijdelijke blokkade voor grote types
-*.pdf
 *.pptx
 *.png
 *.jpg
