@@ -8,9 +8,6 @@
 
 
 
-
-
-
 \makeatletter
 {\catcode`\^^M=\active %
  \gdef\obeylinesandstanzas{%
@@ -44,6 +41,95 @@
 }
 
 
+\usepackage{xcolor}
 
+\newcommand{\sagatitle}[1]{%
+  \begin{center}
+    {\Huge \textbf{#1}}
+  \end{center}
+  \vspace{3em}
+}
 
+\newcommand{\trilogiatitle}[4]{%
+  \begin{center}
+    {\Large #1} \\[0.5em]
+    {\Huge \textbf{#2}} \\[0.5em]
+    {\large \textcolor{gray}{#3}} \\[1em]
+    {\small \textbf{#4}}
+  \end{center}
+  \vspace{3em}
+}
 
+\newcommand{\operaindex}[1]{%
+  \vspace{1.5em}
+  \noindent{\Large #1} \par\vspace{1em}
+}
+
+\newcommand{\canticumindex}[1]{%
+  \vspace{0.5em}
+  \noindent\textcolor{blue}{\underline{#1}} \par
+}
+
+\newenvironment{cantoindex}{%
+  \begin{enumerate}
+    \color{blue}
+}{%
+  \end{enumerate}
+}
+
+\newcommand{\cantoitem}[1]{%
+  \item \underline{#1}
+}
+
+\newcommand{\sagatitlepage}[6]{%
+  \begin{center}
+    {\Large #1} \\[0.5em]
+    {\Huge \textbf{#2}} \\[1.5em]
+    {\large \textcolor{gray}{#3}} \\[0.5em]
+    {\large \textcolor{gray}{#4}} \\[0.5em]
+    {\large \textcolor{gray}{#5}} \\[2em]
+    {\small \textbf{\uppercase{#6}}}
+  \end{center}
+  \vspace{3em}
+}
+
+\newcommand{\canticumtitle}[2]{%
+  \clearpage
+  \vspace*{\fill}
+  \begin{center}
+    \Huge \textbf{Canticum #1} \\
+    \vspace{0.5em}
+    \Huge \textbf{#2}
+  \end{center}
+  \vspace*{\fill}
+  \clearpage
+}
+
+\newcommand{\renderCanto}[2]{%
+  \clearpage
+  \begin{center}
+    \Large \textbf{Canto #1} \\
+    \vspace{0.5em}
+    \normalsize \input{../Muziek/Canto #1_Stijl.tex}
+  \end{center}
+  \input{../Muziek/Canto #1_Noten.tex}
+  \vspace{1em}
+  \begin{multicols}{3}
+    \raggedright
+    \inputcanto{../Canti/#2/Canto #1.tex}
+  \end{multicols}
+}
+
+\newif\ifincantoindex
+\newcommand{\includeCanticumIndex}[1]{%
+  \begingroup
+    \incantoindexfalse
+    \renewcommand{\canticumtitle}[2]{\canticumindex{Canticum ##1: ##2}}
+    \renewcommand{\renderCanto}[2]{%
+      \ifincantoindex\else\begin{cantoindex}\incantoindextrue\fi
+      \cantoitem{##1}%
+    }
+    \input{#1}
+    \ifincantoindex\end{cantoindex}\fi
+  \endgroup
+}
