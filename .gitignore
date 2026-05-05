@@ -5,12 +5,6 @@ Muziek/
 *.wav
 *.mp3
 
-# Tijdelijke blokkade voor grote types
-*.pptx
-*.png
-*.jpg
-*.jpeg
-*.svg
 *.mscz
 
 *.aup3
