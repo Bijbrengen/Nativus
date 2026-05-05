@@ -1,0 +1,19 @@
+Afbeeldingen/
+Archief/
+Kaarten/
+Muziek/
+*.wav
+*.mp3
+
+# Tijdelijke blokkade voor grote types
+*.pdf
+*.xlsx
+*.docx
+*.pptx
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.mscz
+
+*.aup3
