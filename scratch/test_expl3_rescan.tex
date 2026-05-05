@@ -1,0 +1,51 @@
+\documentclass{article}
+\usepackage{multicol}
+\usepackage[utf8]{inputenc}
+\usepackage{xparse}
+
+\ExplSyntaxOn
+\ior_new:N \g_poem_stream
+\tl_new:N \l_stanza_tl
+
+\NewDocumentCommand{\inputpoem}{m}
+ {
+  \ior_open:Nn \g_poem_stream {#1}
+  \tl_clear:N \l_stanza_tl
+  \ior_str_map_inline:Nn \g_poem_stream
+   {
+    \tl_if_blank:nTF { ##1 }
+     { % Empty line means end of stanza
+      \tl_if_empty:NF \l_stanza_tl
+       {
+        \noindent\begin{minipage}{\columnwidth}
+        \tl_rescan:nn { } { \l_stanza_tl }
+        \end{minipage}
+        \vspace{1em}
+        \par
+        \tl_clear:N \l_stanza_tl
+       }
+     }
+     { % Non-empty line
+      \tl_if_empty:NTF \l_stanza_tl
+       { \tl_put_right:Nn \l_stanza_tl { ##1 } }
+       { \tl_put_right:Nn \l_stanza_tl { \\ ##1 } }
+     }
+   }
+  % Flush the last stanza if any
+  \tl_if_empty:NF \l_stanza_tl
+   {
+    \noindent\begin{minipage}{\columnwidth}
+    \tl_rescan:nn { } { \l_stanza_tl }
+    \end{minipage}
+    \vspace{1em}
+    \par
+   }
+  \ior_close:N \g_poem_stream
+ }
+\ExplSyntaxOff
+
+\begin{document}
+\begin{multicols}{3}
+\inputpoem{testpoem.tex}
+\end{multicols}
+\end{document}

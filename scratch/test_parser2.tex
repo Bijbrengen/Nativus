@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage{multicol}
+\usepackage[utf8]{inputenc}
+
+\newread\poemfile
+\newcommand{\inputpoem}[1]{%
+  \openin\poemfile=#1
+  \noindent\begin{minipage}{\columnwidth}%
+  \begin{verse}%
+  \loop\unless\ifeof\poemfile
+    \read\poemfile to \fileline
+    % check if \fileline is empty (or just \par)
+    \ifx\fileline\empty
+      \end{verse}%
+      \end{minipage}%
+      \vspace{1em}%
+      \par\noindent\begin{minipage}{\columnwidth}%
+      \begin{verse}%
+    \else
+      \fileline \\%
+    \fi
+  \repeat
+  \end{verse}%
+  \end{minipage}%
+  \closein\poemfile
+}
+
+\begin{document}
+\begin{multicols}{3}
+\inputpoem{testpoem.tex}
+\end{multicols}
+\end{document}

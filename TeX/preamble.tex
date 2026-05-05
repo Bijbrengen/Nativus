@@ -1,5 +1,49 @@
-\documentclass{book}
 \usepackage[utf8]{inputenc}
 \usepackage{multicol}
 \usepackage{verse}
-\usepackage{standalone}
+\usepackage[left=1.5cm, right=1.5cm, top=2cm, bottom=2cm]{geometry}
+\setlength{\columnsep}{1cm}
+\usepackage{newunicodechar}
+\newunicodechar{♭}{$\flat$}
+
+
+
+
+
+
+\makeatletter
+{\catcode`\^^M=\active %
+ \gdef\obeylinesandstanzas{%
+  \catcode`\^^M=\active %
+  \def^^M{\futurelet\next\check@newline}%
+ }%
+ \gdef\check@newline{%
+  \ifx\next^^J%
+    \expandafter\ignore@newline%
+  \else%
+    \ifx\next^^M%
+      \expandafter\expandafter\expandafter\stanza@break%
+    \else%
+      \newline%
+    \fi%
+  \fi%
+ }%
+ \gdef\ignore@newline#1{\futurelet\next\check@newline}%
+ \gdef\stanza@break^^M{%
+  \par\end{minipage}\vspace{1em}\par\noindent\begin{minipage}{\columnwidth}\raggedright%
+ }%
+}
+\makeatother
+
+\newcommand{\inputcanto}[1]{%
+  \begingroup
+  \obeylinesandstanzas
+  \noindent\begin{minipage}{\columnwidth}\raggedright
+  \input{#1}\par\end{minipage}%
+  \endgroup
+}
+
+
+
+
+

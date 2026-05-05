@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage{multicol}
+\usepackage[utf8]{inputenc}
+
+\makeatletter
+{\catcode`\^^M=\active %
+ \gdef\obeylinesandstanzas{%
+  \catcode`\^^M=\active %
+  \def^^M{\@ifnextchar^^M{\end{minipage}\vspace{1em}\par\noindent\begin{minipage}{\columnwidth}\@gobble}{\\}}%
+ }%
+}
+\makeatother
+
+\newcommand{\inputpoem}[1]{%
+  \noindent\begin{minipage}{\columnwidth}%
+  \begingroup
+  \obeylinesandstanzas
+  \input{#1}%
+  \endgroup
+  \end{minipage}%
+}
+
+\begin{document}
+\begin{multicols}{3}
+\inputpoem{testpoem.tex}
+\end{multicols}
+\end{document}

@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{multicol}
+\usepackage[utf8]{inputenc}
+
+\makeatletter
+{\catcode`\^^M=\active %
+ \gdef\obeylinesandstanzas{%
+  \catcode`\^^M=\active %
+  \def^^M{\futurelet\next\check@newline}%
+ }%
+ \gdef\check@newline{%
+  \ifx\next^^M%
+    \expandafter\stanza@break%
+  \else%
+    \\%
+  \fi%
+ }%
+ \gdef\stanza@break^^M{%
+  \par\end{minipage}\vspace{1em}\par\noindent\begin{minipage}{\columnwidth}%
+ }%
+}
+\makeatother
+
+\newcommand{\inputpoem}[1]{%
+  \begingroup
+  \noindent\begin{minipage}{\columnwidth}%
+  \obeylinesandstanzas
+  \input{#1}\par\end{minipage}%
+  \endgroup
+}
+
+\begin{document}
+\begin{multicols}{3}
+\inputpoem{testpoem.tex}
+\end{multicols}
+\end{document}
